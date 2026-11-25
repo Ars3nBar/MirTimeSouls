@@ -107,13 +107,6 @@ public class MirTimeSouls extends JavaPlugin implements CommandExecutor, TabComp
         return true;
     }
 
-
-        if (sender instanceof Player p) {
-            openSoulsMenu(p);
-        }
-        return true;
-    }
-
     public ItemStack createSoulItem(Player killer, String victimName, String weaponName) {
         ItemStack is = new ItemStack(Material.ECHO_SHARD);
         ItemMeta meta = is.getItemMeta();
@@ -140,6 +133,7 @@ public class MirTimeSouls extends JavaPlugin implements CommandExecutor, TabComp
         }
         return is;
     }
+
     private boolean isValidSoulFor(ItemStack is, UUID playerUuid) {
         if (is == null || !is.hasItemMeta()) return false;
         var pdc = is.getItemMeta().getPersistentDataContainer();
