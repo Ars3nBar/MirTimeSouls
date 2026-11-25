@@ -1,0 +1,14 @@
+name: MirTimeSouls
+version: 1.0.0
+main: ru.mirtime.souls.MirTimeSouls
+api-version: '1.21'
+authors: [Mir-Time]
+
+commands:
+  souls:
+    description: Меню Собирателя душ
+    aliases: [soul, dushi]
+
+permissions:
+  mirtime.souls.admin:
+    default: op
