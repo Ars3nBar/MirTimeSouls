@@ -1,0 +1,41 @@
+settings:
+  # Кулдаун в секундах на выпадение души с одного и того же игрока (защита от накрутки)
+  kill-cooldown-seconds: 600
+  # Максимум душ за один обмен
+  max-souls-per-trade: 32
+
+rewards:
+  # От 1 до 9 душ — обычные полезные предметы Minecraft
+  tier_1_9:
+    - cmd: "minecraft:give %player% golden_apple 6"
+      display: "&eЗолотое яблоко (x6)"
+    - cmd: "minecraft:give %player% ender_pearl 16"
+      display: "&3Эндер-жемчуг (x16)"
+    - cmd: "minecraft:give %player% diamond 8"
+      display: "&bАлмазы (x8)"
+    - cmd: "minecraft:give %player% experience_bottle 48"
+      display: "&aПузырёк опыта (x48)"
+    - cmd: "minecraft:give %player% obsidian 32"
+      display: "&5Обсидиан (x32)"
+
+  # От 10 до 29 душ — слабые кастомные предметы из MirTimeItems
+  tier_10_29:
+    - cmd: "mtitems give %player% trapka 1"
+      display: "&#0055ff&l⬛ Обсидиановая Трапка"
+    - cmd: "mtitems give %player% flash_pearl 1"
+      display: "&#00E5FF&l👁 Око Пустоты"
+    - cmd: "mtitems give %player% drill_pickaxe 1"
+      display: "&#FF2A55&l⛏ Бур 3×3"
+
+  # От 30 до 32 душ (максимум!) — серьёзные кастомные артефакты
+  tier_30_32:
+    - cmd: "mtitems give %player% mega_trap 1"
+      display: "&#00E5FF&l💠 Мега-Трапка 7×7"
+    - cmd: "mtitems give %player% disorient 1"
+      display: "&#9400d3&l🌀 Сфера Дезориентации"
+    - cmd: "mtitems give %player% frost_staff 1"
+      display: "&b&l❄ Ледяной Скипетр"
+    - cmd: "mtitems give %player% thor_axe 1"
+      display: "&#00E5FF&l⚡ Молот Тора"
+    - cmd: "mtitems give %player% vampire_blade 1"
+      display: "&c&l🩸 Клинок Вампира"
