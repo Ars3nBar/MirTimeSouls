@@ -62,7 +62,7 @@ public class MirTimeSouls extends JavaPlugin implements CommandExecutor, TabComp
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length > 0) {
-            String sub = args.toLowerCase();
+            String sub = args[0].toLowerCase();
             if (sub.equals("reload")) {
                 if (!sender.hasPermission("mirtime.souls.admin")) {
                     sender.sendMessage(color("&#0055ff&l⚡ &#00E5FF&lДУШИ &8» &cУ вас нет прав!"));
@@ -81,12 +81,18 @@ public class MirTimeSouls extends JavaPlugin implements CommandExecutor, TabComp
                     sender.sendMessage(color("&#0055ff&l⚡ &#00E5FF&lДУШИ &8» &fИспользование: &#00FF66/souls give <игрок> <кол-во>"));
                     return true;
                 }
-                Player target = Bukkit.getPlayer(args);
+                Player target = Bukkit.getPlayer(args[1]);
                 if (target == null) {
                     sender.sendMessage(color("&#0055ff&l⚡ &#00E5FF&lДУШИ &8» &cИгрок не в сети!"));
                     return true;
                 }
-                int amount = Math.max(1, Math.min(32, Integer.parseInt(args)));
+                int amount;
+                try {
+                    amount = Math.max(1, Math.min(32, Integer.parseInt(args[2])));
+                } catch (NumberFormatException e) {
+                    sender.sendMessage(color("&#0055ff&l⚡ &#00E5FF&lДУШИ &8» &cКоличество должно быть числом от 1 до 32!"));
+                    return true;
+                }
                 ItemStack soul = createSoulItem(target, "Тестовая жертва", "Админ-выдача");
                 soul.setAmount(amount);
                 target.getInventory().addItem(soul);
@@ -94,6 +100,13 @@ public class MirTimeSouls extends JavaPlugin implements CommandExecutor, TabComp
                 return true;
             }
         }
+
+        if (sender instanceof Player p) {
+            openSoulsMenu(p);
+        }
+        return true;
+    }
+
 
         if (sender instanceof Player p) {
             openSoulsMenu(p);
