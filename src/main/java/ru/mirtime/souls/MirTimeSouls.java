@@ -2,7 +2,6 @@ package ru.mirtime.souls;
 
 import org.bukkit.*;
 import org.bukkit.command.*;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -146,7 +145,6 @@ public class MirTimeSouls extends JavaPlugin implements CommandExecutor, TabComp
         if (is == null || !is.hasItemMeta()) return false;
         return is.getItemMeta().getPersistentDataContainer().has(soulMarkerKey, PersistentDataType.BYTE);
     }
-
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e) {
         Player victim = e.getEntity();
@@ -301,20 +299,21 @@ public class MirTimeSouls extends JavaPlugin implements CommandExecutor, TabComp
             }
 
             int amount = Math.min(inside.getAmount(), 32);
-            top.setItem(INPUT_SLOT, null);
-            p.closeInventory();
-
             String sectionKey = (amount >= 30) ? "tier_30_32" : (amount >= 10 ? "tier_10_29" : "tier_1_9");
-            ConfigurationSection sec = getConfig().getConfigurationSection("rewards." + sectionKey);
-            if (sec == null || sec.getKeys(false).isEmpty()) {
-                p.sendMessage(color("&#0055ff&l⚡ &#00E5FF&lДУШИ &8» &cСписок наград в config.yml пуст!"));
+            List<Map<?, ?>> list = getConfig().getMapList("rewards." + sectionKey);
+
+            if (list.isEmpty()) {
+                p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
+                p.sendMessage(color("&#0055ff&l⚡ &#00E5FF&lДУШИ &8» &cСписок наград (" + sectionKey + ") в config.yml пуст!"));
                 return;
             }
 
-            List<String> keys = new ArrayList<>(sec.getKeys(false));
-            String chosenKey = keys.get(new Random().nextInt(keys.size()));
-            String rewardCmd = sec.getString(chosenKey + ".cmd", "");
-            String rewardDisplay = sec.getString(chosenKey + ".display", "Награда");
+            top.setItem(INPUT_SLOT, null);
+            p.closeInventory();
+
+            Map<?, ?> chosen = list.get(new Random().nextInt(list.size()));
+            String rewardCmd = chosen.get("cmd") != null ? String.valueOf(chosen.get("cmd")) : "";
+            String rewardDisplay = chosen.get("display") != null ? String.valueOf(chosen.get("display")) : "Награда";
 
             p.playSound(p.getLocation(), Sound.ENTITY_WITHER_SPAWN, 0.6f, 1.4f);
             p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1.1f);
